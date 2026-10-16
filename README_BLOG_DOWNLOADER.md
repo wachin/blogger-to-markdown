@@ -10,6 +10,9 @@ Script para descargar entradas de blog de Blogger (o cualquier sitio web) y conv
 ✅ Organiza las imágenes en una carpeta separada
 ✅ Actualiza automáticamente las referencias a las imágenes en el Markdown
 ✅ Preserva el formato del texto (negritas, cursivas, enlaces, etc.)
+✅ **NUEVO:** Extracción automática de fecha de publicación
+✅ **NUEVO:** Nombres de carpetas con prefijo de fecha (YYYYMMDD-titulo)
+✅ **NUEVO:** Soporte para múltiples formatos de fecha
 
 ## Requisitos
 
@@ -61,6 +64,55 @@ python3 blog_downloader.py 'URL_DE_TU_ENTRADA'
 ```bash
 python3 blog_downloader.py 'URL' 'nombre_carpeta'
 ```
+
+### NUEVO: Nombres de Carpeta con Fecha
+
+#### Con Prefijo de Fecha Automático
+
+El script puede extraer automáticamente la fecha de publicación del blog y usarla como prefijo del nombre de la carpeta:
+
+```bash
+# Formato YYYYMMDD (por defecto)
+python3 blog_downloader.py 'URL' --add-date
+
+# Ejemplo de resultado: 20230716-titulo-de-la-entrada/
+```
+
+#### Con Formato de Fecha Personalizado
+
+```bash
+# Formato YYYY-MM-DD
+python3 blog_downloader.py 'URL' --add-date --date-format YYYY-MM-DD
+
+# Ejemplo de resultado: 2023-07-16-titulo-de-la-entrada/
+```
+
+#### Ejemplo Completo con Fecha
+
+```bash
+# Descargar con prefijo de fecha
+python3 blog_downloader.py \
+  'https://facilitarelsoftwarelibre.blogspot.com/2023/11/como-configurar-la-cartera-kwallet-de-KDE.html' \
+  --add-date \
+  --date-format YYYYMMDD
+
+# Resultado:
+# 20230716-como-configurar-la-cartera-kwallet-en-kde-para-kubuntu/
+# ├── README.md
+# └── images/
+#     └── ... (13 imágenes)
+```
+
+#### Cómo Funciona la Extracción de Fecha
+
+El script intenta extraer la fecha de publicación en este orden:
+
+1. **Meta tags HTML** (article:published_time, og:published_time, etc.)
+2. **Contenido del post** (elementos con clase date-header, post-date, etc.)
+3. **URL del post** (formato Blogger: /YYYY/MM/titulo.html)
+4. **Fecha actual** (si no se encuentra ninguna fecha)
+
+La fecha extraída se combina con un slug limpio generado del título para crear nombres de carpetas organizados y ordenables cronológicamente.
 
 ## Estructura de salida
 

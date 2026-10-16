@@ -169,12 +169,16 @@ python3 test_gui.py
 - Progreso en tiempo real
 - Validación de URLs
 - Mensajes de error claros
+- **NUEVO:** Opción de prefijo de fecha para carpetas
+- **NUEVO:** Selector de formato de fecha
 
 ### Versión CLI
 - Scriptable y automatizable
 - Múltiples descargas en lote
 - Integración con pipelines
 - Sin dependencias gráficas
+- **NUEVO:** Flag `--add-date` para prefijo de fecha
+- **NUEVO:** Opción `--date-format` para formato de fecha
 
 ### Ambas Versiones
 - 📝 Conversión a Markdown limpio
@@ -182,12 +186,22 @@ python3 test_gui.py
 - 📁 Organización en carpetas
 - 🔗 Enlaces actualizados
 - ✅ Preserva formato
+- **📅 NUEVO:** Nombres de carpetas basados en fecha (YYYYMMDD-titulo)
+- **🔍 NUEVO:** Extracción automática de fecha de publicación
 
 ---
 
 ## 🎯 Casos de Uso
 
-### Backup de Blog
+### Backup de Blog con Fechas
+```bash
+# Con fecha automática
+./venv/bin/python3 blog_downloader.py 'https://tu-blog.com/entrada.html' --add-date
+
+# Resultado: 20231107-titulo-de-entrada/
+```
+
+### Backup de Blog (Sin fechas)
 ```bash
 ./run_gui.sh
 # Descargar cada entrada una por una

@@ -11,6 +11,8 @@ from bs4 import BeautifulSoup
 import re
 from urllib.parse import urljoin, urlparse
 import html2text
+from datetime import datetime
+from dateutil import parser as date_parser
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                              QHBoxLayout, QLabel, QLineEdit, QPushButton, 
                              QTextEdit, QFileDialog, QProgressBar, QComboBox,
@@ -23,10 +25,12 @@ class DownloadThread(QThread):
     progress = pyqtSignal(str)
     finished = pyqtSignal(bool, str)
     
-    def __init__(self, url, output_folder):
+    def __init__(self, url, output_folder, add_date_prefix=False, date_format='YYYYMMDD'):
         super().__init__()
         self.url = url
         self.output_folder = output_folder
+        self.add_date_prefix = add_date_prefix
+        self.date_format = date_format
     
     def run(self):
         """Execute the download in a separate thread"""
@@ -48,11 +52,40 @@ class DownloadThread(QThread):
             title = title_tag.get_text().strip() if title_tag else "Untitled"
             self.progress.emit(f"{self.tr('Title')}: {title}")
             
-            # Create output folder
-            if not os.path.exists(self.output_folder):
-                os.makedirs(self.output_folder)
+            # Extract publication date if enabled
+            post_date = None
+            if self.add_date_prefix:
+                self.progress.emit(self.tr("Extracting publication date..."))
+                post_date = extract_publication_date(soup, self.url)
+                if post_date:
+                    self.progress.emit(f"  ✓ {self.tr('Date found')}: {post_date.strftime('%Y-%m-%d')}")
+                else:
+                    self.progress.emit(f"  ⚠ {self.tr('Date not found, using current date')}")
+                    post_date = datetime.now()
             
-            images_folder = os.path.join(self.output_folder, "images")
+            # Determine output folder
+            if self.output_folder and not self.add_date_prefix:
+                # User specified folder
+                final_folder = self.output_folder
+            else:
+                # Generate slug from title
+                slug = generate_slug(title)
+                
+                # Use date prefix if enabled
+                if self.add_date_prefix and post_date:
+                    final_folder = format_date_folder_name(post_date, slug, self.date_format)
+                else:
+                    final_folder = slug
+                
+                # If user specified a base path, prepend it
+                if self.output_folder:
+                    final_folder = os.path.join(self.output_folder, final_folder)
+            
+            # Create output folder
+            if not os.path.exists(final_folder):
+                os.makedirs(final_folder)
+            
+            images_folder = os.path.join(final_folder, "images")
             if not os.path.exists(images_folder):
                 os.makedirs(images_folder)
             
@@ -102,12 +135,12 @@ class DownloadThread(QThread):
             final_markdown += markdown_content
             
             # Save Markdown file
-            markdown_filename = os.path.join(self.output_folder, "README.md")
+            markdown_filename = os.path.join(final_folder, "README.md")
             with open(markdown_filename, 'w', encoding='utf-8') as f:
                 f.write(final_markdown)
             
             self.progress.emit(f"\n✅ {self.tr('Download completed!')}")
-            self.progress.emit(f"📁 {self.tr('Files saved in')}: {self.output_folder}/")
+            self.progress.emit(f"📁 {self.tr('Files saved in')}: {final_folder}/")
             
             self.finished.emit(True, self.tr("Download completed successfully!"))
             
@@ -153,6 +186,146 @@ class DownloadThread(QThread):
     def tr(self, text):
         """Translation helper"""
         return QApplication.translate("DownloadThread", text)
+
+
+def extract_publication_date(soup, url):
+    """
+    Extract publication date from post HTML or URL
+    
+    Args:
+        soup: BeautifulSoup object of the HTML
+        url: URL of the post
+    
+    Returns:
+        datetime object or None if cannot be extracted
+    """
+    # Method 1: Search in meta tags
+    meta_date = None
+    
+    # Blogger format
+    meta_tags = [
+        ('meta', {'property': 'article:published_time'}),
+        ('meta', {'property': 'og:published_time'}),
+        ('meta', {'name': 'date'}),
+        ('meta', {'itemprop': 'datePublished'}),
+    ]
+    
+    for tag_name, attrs in meta_tags:
+        meta_tag = soup.find(tag_name, attrs)
+        if meta_tag and meta_tag.get('content'):
+            try:
+                meta_date = date_parser.parse(meta_tag.get('content'))
+                return meta_date
+            except:
+                pass
+    
+    # Method 2: Search in post content (Blogger specific)
+    date_selectors = [
+        ('span', 'date-header'),
+        ('span', 'post-date'),
+        ('time', 'published'),
+        ('span', 'published'),
+        ('abbr', 'published'),
+        ('time', 'entry-date'),
+    ]
+    
+    for tag, class_name in date_selectors:
+        date_elem = soup.find(tag, class_=class_name)
+        if date_elem:
+            date_text = date_elem.get_text().strip()
+            try:
+                parsed_date = date_parser.parse(date_text, fuzzy=True)
+                return parsed_date
+            except:
+                pass
+    
+    # Method 3: Extract from URL (Blogger format: /YYYY/MM/title.html)
+    url_patterns = [
+        r'/(\d{4})/(\d{2})/',  # /2023/11/
+        r'(\d{4})-(\d{2})-(\d{2})',  # 2023-11-07
+        r'/(\d{4})/(\d{2})/(\d{2})/',  # /2023/11/07/
+    ]
+    
+    for pattern in url_patterns:
+        match = re.search(pattern, url)
+        if match:
+            try:
+                if len(match.groups()) == 2:
+                    year, month = match.groups()
+                    date_from_url = datetime(int(year), int(month), 1)
+                else:
+                    year, month, day = match.groups()
+                    date_from_url = datetime(int(year), int(month), int(day))
+                
+                return date_from_url
+            except:
+                pass
+    
+    return None
+
+def generate_slug(title):
+    """
+    Generate URL-friendly slug from title
+    
+    Args:
+        title: Post title
+    
+    Returns:
+        String slug in lowercase with hyphens
+    """
+    # Convert to lowercase
+    slug = title.lower()
+    
+    # Replace common accented characters
+    char_map = {
+        'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+        'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
+        'ä': 'a', 'ë': 'e', 'ï': 'i', 'ö': 'o', 'ü': 'u',
+        'ñ': 'n', 'ç': 'c',
+    }
+    
+    for char, replacement in char_map.items():
+        slug = slug.replace(char, replacement)
+    
+    # Replace non-alphanumeric characters with hyphens
+    slug = re.sub(r'[^a-z0-9\s-]', '', slug)
+    
+    # Replace spaces and multiple hyphens with single hyphen
+    slug = re.sub(r'[\s_]+', '-', slug)
+    slug = re.sub(r'-+', '-', slug)
+    
+    # Remove leading and trailing hyphens
+    slug = slug.strip('-')
+    
+    # Limit length
+    if len(slug) > 100:
+        slug = slug[:100].rstrip('-')
+    
+    return slug
+
+def format_date_folder_name(date_obj, slug, date_format='YYYYMMDD'):
+    """
+    Format folder name with date and slug
+    
+    Args:
+        date_obj: datetime object
+        slug: String slug of title
+        date_format: Date format ('YYYYMMDD', 'YYYY-MM-DD', etc.)
+    
+    Returns:
+        String with formatted folder name
+    """
+    if not date_obj:
+        return slug
+    
+    if date_format == 'YYYYMMDD':
+        date_prefix = date_obj.strftime('%Y%m%d')
+    elif date_format == 'YYYY-MM-DD':
+        date_prefix = date_obj.strftime('%Y-%m-%d')
+    else:
+        date_prefix = date_obj.strftime('%Y%m%d')
+    
+    return f"{date_prefix}-{slug}"
 
 
 class BlogDownloaderGUI(QMainWindow):
@@ -236,6 +409,28 @@ class BlogDownloaderGUI(QMainWindow):
         self.auto_folder_checkbox.setChecked(True)
         input_layout.addWidget(self.auto_folder_checkbox)
         
+        # Date prefix options
+        date_group = QGroupBox(self.tr("Date-based Folder Naming"))
+        date_layout = QVBoxLayout()
+        
+        self.add_date_checkbox = QCheckBox(self.tr("Add date prefix to folder name"))
+        self.add_date_checkbox.setChecked(False)
+        date_layout.addWidget(self.add_date_checkbox)
+        
+        # Date format selector
+        date_format_layout = QHBoxLayout()
+        date_format_label = QLabel(self.tr("Date format:"))
+        self.date_format_combo = QComboBox()
+        self.date_format_combo.addItem("YYYYMMDD (e.g., 20231107)", "YYYYMMDD")
+        self.date_format_combo.addItem("YYYY-MM-DD (e.g., 2023-11-07)", "YYYY-MM-DD")
+        date_format_layout.addWidget(date_format_label)
+        date_format_layout.addWidget(self.date_format_combo)
+        date_format_layout.addStretch()
+        date_layout.addLayout(date_format_layout)
+        
+        date_group.setLayout(date_layout)
+        input_layout.addWidget(date_group)
+        
         input_group.setLayout(input_layout)
         main_layout.addWidget(input_group)
         
@@ -318,6 +513,10 @@ class BlogDownloaderGUI(QMainWindow):
                 return
             base_path = output_folder
         
+        # Get date-related options
+        add_date_prefix = self.add_date_checkbox.isChecked()
+        date_format = self.date_format_combo.currentData()
+        
         # Clear log
         self.log_text.clear()
         
@@ -326,7 +525,12 @@ class BlogDownloaderGUI(QMainWindow):
         self.statusBar().showMessage(self.tr("Downloading..."))
         
         # Start download thread
-        self.download_thread = DownloadThread(url, base_path if output_folder is None else output_folder)
+        self.download_thread = DownloadThread(
+            url, 
+            base_path if output_folder is None else output_folder,
+            add_date_prefix=add_date_prefix,
+            date_format=date_format
+        )
         self.download_thread.progress.connect(self.update_log)
         self.download_thread.finished.connect(self.download_finished)
         self.download_thread.start()

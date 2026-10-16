@@ -40,14 +40,27 @@ https://facilitarelsoftwarelibre.blogspot.com/2023/11/como-configurar-la-cartera
 ### Paso 3: Configurar (Opcional)
 - **Idioma**: English / Español
 - **Carpeta**: Auto-crear o seleccionar manualmente
+- **NUEVO - Prefijo de Fecha**: Marca "Add date prefix" para nombres con fecha
+- **NUEVO - Formato de Fecha**: YYYYMMDD o YYYY-MM-DD
 
 ### Paso 4: Descargar
 Clic en "Download Blog Post" / "Descargar Entrada del Blog"
 
 ## 📁 Resultado
 
+### Sin prefijo de fecha:
 ```
 tu-entrada-de-blog/
+├── README.md          # ← Tu contenido en Markdown
+└── images/            # ← Todas las imágenes
+    ├── image_001.jpg
+    ├── image_002.png
+    └── ...
+```
+
+### NUEVO: Con prefijo de fecha:
+```
+20230716-tu-entrada-de-blog/
 ├── README.md          # ← Tu contenido en Markdown
 └── images/            # ← Todas las imágenes
     ├── image_001.jpg
@@ -90,6 +103,11 @@ rm -rf venv
 ### ✅ Usar auto-crear carpeta
 - Marca "Auto-create folder from post title"
 - La app crea la carpeta automáticamente
+
+### ✅ NUEVO: Usar prefijo de fecha
+- Marca "Add date prefix to folder name"
+- Organiza tus entradas cronológicamente
+- Formato: YYYYMMDD-titulo (ej: 20230716-mi-entrada)
 
 ### ✅ Ver progreso en tiempo real
 - El área de log muestra todo el proceso
@@ -150,6 +168,8 @@ Si algo no funciona:
 | 👀 Progreso | Vista en tiempo real |
 | 📁 Auto-carpetas | Basadas en título |
 | ✅ Validación | URLs y rutas |
+| **📅 NUEVO** | Prefijo de fecha automático |
+| **🔍 NUEVO** | Extracción de fecha de publicación |
 
 ---
 

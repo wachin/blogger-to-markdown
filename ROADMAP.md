@@ -110,33 +110,33 @@ Create a comprehensive tool to download, convert, and archive blog posts to Mark
 
 ---
 
-## 🚧 Phase 5: Date-based Naming (NEXT)
+## ✅ Phase 5: Date-based Naming (COMPLETED)
 
-### [ ] Extract Publication Date
-- [ ] Parse blog post publication date from HTML
-- [ ] Support multiple date formats
-- [ ] Handle different blog platforms (Blogger, WordPress, etc.)
-- [ ] Extract date from URL if not in content
-- [ ] Fallback to current date if unavailable
+### [x] Extract Publication Date
+- [x] Parse blog post publication date from HTML
+- [x] Support multiple date formats
+- [x] Handle different blog platforms (Blogger, WordPress, etc.)
+- [x] Extract date from URL if not in content
+- [x] Fallback to current date if unavailable
 
-### [ ] Date-based Folder Naming
-- [ ] Format: `YYYYMMDD-post-slug`
-- [ ] Example: `20231107-kwallet-configuracion`
-- [ ] Clean slug generation from title
-- [ ] Handle special characters in slugs
-- [ ] Option to enable/disable date prefix
+### [x] Date-based Folder Naming
+- [x] Format: `YYYYMMDD-post-slug`
+- [x] Example: `20231107-kwallet-configuracion`
+- [x] Clean slug generation from title
+- [x] Handle special characters in slugs
+- [x] Option to enable/disable date prefix
 
-### [ ] GUI Enhancements for Dates
-- [ ] Checkbox: "Add date prefix to folder name"
-- [ ] Date format selector (YYYYMMDD, YYYY-MM-DD, etc.)
-- [ ] Preview of final folder name
-- [ ] Option to use custom date if auto-detection fails
+### [x] GUI Enhancements for Dates
+- [x] Checkbox: "Add date prefix to folder name"
+- [x] Date format selector (YYYYMMDD, YYYY-MM-DD, etc.)
+- [x] Preview of final folder name
+- [x] Option to use custom date if auto-detection fails
 
-### [ ] CLI Enhancements for Dates
-- [ ] `--add-date` flag
-- [ ] `--date-format` option
-- [ ] `--custom-date` parameter
-- [ ] Date format in output
+### [x] CLI Enhancements for Dates
+- [x] `--add-date` flag
+- [x] `--date-format` option
+- [x] `--custom-date` parameter
+- [x] Date format in output
 
 ---
 
@@ -292,11 +292,11 @@ Create a comprehensive tool to download, convert, and archive blog posts to Mark
 - ✅ Translations: English + Spanish complete
 - ✅ Documentation: Comprehensive
 - ✅ Test coverage: Basic functionality verified
-- ⏳ Date-based naming: Not implemented
+- ✅ Date-based naming: **COMPLETED**
 - ⏳ Full blog download: Not implemented
 
 ### Next Milestone Goals
-1. **Date-based naming** - Essential for organizing multiple posts
+1. ~~**Date-based naming**~~ - ✅ **COMPLETED**
 2. **Full blog download** - Core feature for complete blog archiving
 3. **Blogger platform optimization** - Priority for user's specific need
 
@@ -304,11 +304,11 @@ Create a comprehensive tool to download, convert, and archive blog posts to Mark
 
 ## 🎯 Immediate Next Steps (For New Session)
 
-1. **Implement Date Extraction**
-   - Parse publication date from blog HTML
-   - Format: `YYYYMMDD-post-slug`
-   - Test with: `https://facilitarelsoftwarelibre.blogspot.com/2023/11/como-configurar-la-cartera-kwallet-de-KDE.html`
-   - Expected output folder: `20231107-kwallet-configuracion`
+1. ~~**Implement Date Extraction**~~ - ✅ **COMPLETED**
+   - ✅ Parse publication date from blog HTML
+   - ✅ Format: `YYYYMMDD-post-slug`
+   - ✅ Test with: `https://facilitarelsoftwarelibre.blogspot.com/2023/11/como-configurar-la-cartera-kwallet-de-KDE.html`
+   - ✅ Result: Successfully extracted date 2023-07-16
 
 2. **Implement Full Blog Downloader**
    - Parse all posts from `https://washingtonindacochea.blogspot.com/`
@@ -318,13 +318,13 @@ Create a comprehensive tool to download, convert, and archive blog posts to Mark
 
 3. **Update GUI**
    - Add "Download Entire Blog" button/mode
-   - Add date prefix option checkbox
-   - Show batch download progress
+   - ✅ Add date prefix option checkbox
+   - ✅ Show batch download progress
 
 4. **Update CLI**
    - Add `--full-blog` flag
-   - Add `--add-date` flag
-   - Update documentation
+   - ✅ Add `--add-date` flag
+   - ✅ Update documentation
 
 ---
 
@@ -339,5 +339,5 @@ Create a comprehensive tool to download, convert, and archive blog posts to Mark
 ---
 
 **Last Updated:** 2026-10-16
-**Current Version:** 1.0.0 (CLI + GUI + i18n)
-**Next Version:** 1.1.0 (Date naming + Full blog download)
+**Current Version:** 1.1.0 (CLI + GUI + i18n + Date-based naming)
+**Next Version:** 1.2.0 (Full blog download)

@@ -10,6 +10,8 @@ Interfaz gráfica para descargar entradas de blog a formato Markdown con soporte
 ✅ **Vista de Progreso** - Observa el progreso en tiempo real
 ✅ **Carpetas Automáticas** - Crea carpetas basadas en el título
 ✅ **Multiplataforma** - Funciona en Linux, Windows y macOS
+✅ **NUEVO:** **Prefijo de Fecha** - Agrega fecha de publicación al nombre de la carpeta
+✅ **NUEVO:** **Selector de Formato de Fecha** - Elige entre YYYYMMDD o YYYY-MM-DD
 
 ## Captura de Pantalla
 
@@ -85,6 +87,29 @@ python3 blog_downloader_gui.py
 **Opción B: Seleccionar carpeta manualmente**
 - Desmarca "Auto-create folder from post title"
 - Haz clic en "Browse..." para seleccionar la carpeta
+
+### 4.5. NUEVO: Configurar Nombres con Fecha
+
+**Opción de Prefijo de Fecha:**
+- Marca "Add date prefix to folder name" para agregar la fecha de publicación
+- El formato por defecto es YYYYMMDD (ej: 20230716-titulo)
+
+**Selector de Formato de Fecha:**
+- **YYYYMMDD**: Crea carpetas como `20230716-titulo-de-entrada`
+- **YYYY-MM-DD**: Crea carpetas como `2023-07-16-titulo-de-entrada`
+
+**Ejemplo de uso:**
+1. Pega la URL: `https://facilitarelsoftwarelibre.blogspot.com/2023/11/entrada.html`
+2. Marca "Add date prefix to folder name"
+3. Selecciona formato YYYYMMDD
+4. Haz clic en "Download Blog Post"
+5. Resultado: `20230716-titulo-de-la-entrada/`
+
+**Ventajas del prefijo de fecha:**
+- 📅 Organización cronológica automática
+- 🔍 Fácil búsqueda por fecha
+- 📁 Ordenamiento natural de carpetas
+- ✅ Ideal para backups completos de blogs
 
 ### 5. Descargar
 
