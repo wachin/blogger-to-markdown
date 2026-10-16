@@ -71,7 +71,33 @@ Dependencies are installed automatically.
 
 ---
 
-## 🔧 Manual Installation
+## � Debian/Ubuntu Installation (System Packages)
+
+For Debian/Ubuntu users who prefer to use system packages instead of virtual environments:
+
+### Install Required Packages
+
+```bash
+sudo apt install python3-requests python3-html2text python3-bs4 python3-lxml python3-pyqt5 python3-dateutil
+```
+
+### Run the Program
+
+Once the packages are installed, simply run:
+
+```bash
+# GUI version
+python3 blog_downloader_gui.py
+
+# CLI version
+python3 blog_downloader.py 'URL'
+```
+
+**Note:** This method is ideal for creating a .deb package for easy distribution on Debian-based systems.
+
+---
+
+## �🔧 Manual Installation
 
 If you prefer to install manually:
 

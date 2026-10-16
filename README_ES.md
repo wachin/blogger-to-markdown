@@ -71,6 +71,32 @@ Las dependencias se instalan automáticamente.
 
 ---
 
+## 🐧 Instalación en Debian/Ubuntu (Paquetes del Sistema)
+
+Para usuarios de Debian/Ubuntu que prefieran usar paquetes del sistema en lugar de entornos virtuales:
+
+### Instalar Paquetes Necesarios
+
+```bash
+sudo apt install python3-requests python3-html2text python3-bs4 python3-lxml python3-pyqt5 python3-dateutil
+```
+
+### Ejecutar el Programa
+
+Una vez instalados los paquetes, simplemente ejecuta:
+
+```bash
+# Versión GUI
+python3 blog_downloader_gui.py
+
+# Versión CLI
+python3 blog_downloader.py 'URL'
+```
+
+**Nota:** Este método es ideal para crear un paquete .deb para fácil distribución en sistemas basados en Debian.
+
+---
+
 ## 🔧 Instalación Manual
 
 Si prefieres instalar manualmente:
