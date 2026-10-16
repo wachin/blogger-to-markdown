@@ -4,241 +4,194 @@
 ![Platform](https://img.shields.io/badge/platform-linux%20%7C%20windows%20%7C%20macos-lightgrey.svg)
 
 
-# MDHoriZon Research - Project Repository
+# Blogger to Markdown
 
-Este repositorio contiene múltiples proyectos de desarrollo web y herramientas.
+### 1. 📝 Blog Post Downloader (CLI + GUI)
 
-## 📚 Proyectos Incluidos
+Tool to download blog posts to Markdown format with images.
 
-### 1. 🌐 Clon de DigitalOcean
-Recreación de la página principal de DigitalOcean con fines educativos.
+#### 🖥️ GUI Version (Recommended)
 
-**Archivos:**
-- `index.html` - Estructura HTML
-- `styles.css` - Estilos CSS responsive
-- `script.js` - JavaScript con animaciones
+**Features:**
+- ✅ Modern graphical interface with PyQt5
+- 🌐 Multilingual (English/Spanish)
+- 👀 Real-time progress
+- 📁 Auto-create folders
+- 🖼️ Automatic image download
 
-**Para ver:** Abre `index.html` en tu navegador
-
----
-
-### 2. 📝 Blog Post Downloader (CLI + GUI)
-
-Herramienta para descargar entradas de blog a formato Markdown con imágenes.
-
-#### 🖥️ Versión GUI (Recomendada)
-
-**Características:**
-- ✅ Interfaz gráfica moderna con PyQt5
-- 🌐 Multiidioma (Inglés/Español)
-- 👀 Progreso en tiempo real
-- 📁 Auto-creación de carpetas
-- 🖼️ Descarga automática de imágenes
-
-**Inicio Rápido:**
+**Quick Start:**
 ```bash
 ./run_gui.sh
 ```
 
-**Documentación completa:** Ver `README_GUI.md`
+**Full documentation:** See `README_GUI.md`
 
-#### 💻 Versión CLI (Línea de Comandos)
+#### 💻 CLI Version (Command Line)
 
-**Para usuarios avanzados y scripts:**
+**For advanced users and scripts:**
 ```bash
-./descargar_blog.sh 'URL_DEL_BLOG'
+./descargar_blog.sh 'BLOG_URL'
 ```
 
-**Documentación completa:** Ver `README_BLOG_DOWNLOADER.md`
+**Full documentation:** See `README_BLOG_DOWNLOADER.md`
 
 ---
 
-## 🚀 Inicio Rápido
+## 🚀 Quick Start
 
 ### Blog Downloader GUI
 ```bash
-# 1. Ejecutar (instala dependencias automáticamente)
+# 1. Run (installs dependencies automatically)
 ./run_gui.sh
 
-# 2. En la interfaz:
-#    - Pegar URL del blog
-#    - Seleccionar idioma (English/Español)
-#    - Clic en "Download Blog Post"
+# 2. In the interface:
+#    - Paste blog URL
+#    - Select language (English/Español)
+#    - Click "Download Blog Post"
 ```
 
 ### Blog Downloader CLI
 ```bash
-# Usar directamente
-./descargar_blog.sh 'https://tu-blog.com/entrada.html'
+# Use directly
+./descargar_blog.sh 'https://your-blog.com/post.html'
 
-# O con carpeta personalizada
-./descargar_blog.sh 'https://tu-blog.com/entrada.html' 'mi-carpeta'
+# Or with custom folder
+./descargar_blog.sh 'https://your-blog.com/post.html' 'my-folder'
 ```
 
 ---
 
-## 📋 Requisitos
+## 📋 Requirements
 
-- Python 3.6 o superior
-- pip3 (gestor de paquetes)
-- Conexión a Internet
+- Python 3.6 or higher
+- pip3 (package manager)
+- Internet connection
 
-Las dependencias se instalan automáticamente.
-
----
-
-## 📁 Estructura del Proyecto
-
-```
-MDHoriZon-research/
-├── index.html                      # Landing page de DigitalOcean
-├── styles.css                      # Estilos de la landing page
-├── script.js                       # JavaScript de la landing page
-│
-├── blog_downloader_gui.py          # GUI con PyQt5
-├── blog_downloader.py              # Script CLI
-├── run_gui.sh                      # Ejecutar GUI
-├── descargar_blog.sh              # Ejecutar CLI
-│
-├── translations/                   # Archivos de traducción
-│   ├── blog_downloader_en.ts      # Inglés
-│   └── blog_downloader_es.ts      # Español
-│
-├── kwallet-configuracion/          # Ejemplo de descarga
-│   ├── README.md
-│   └── images/
-│
-├── README.md                       # Este archivo
-├── README_GUI.md                   # Documentación GUI
-├── README_BLOG_DOWNLOADER.md      # Documentación CLI
-├── QUICK_START.md                  # Guía rápida
-├── EJEMPLOS_USO.md                 # Ejemplos de uso
-└── requirements.txt                # Dependencias Python
-```
+Dependencies are installed automatically.
 
 ---
 
-## 🔧 Instalación Manual
+## 🔧 Manual Installation
 
-Si prefieres instalar manualmente:
+If you prefer to install manually:
 
 ```bash
-# Crear entorno virtual
+# Create virtual environment
 python3 -m venv venv
 source venv/bin/activate
 
-# Instalar dependencias
+# Install dependencies
 pip install -r requirements.txt
 
-# Ejecutar GUI
+# Run GUI
 python3 blog_downloader_gui.py
 
-# O ejecutar CLI
+# Or run CLI
 python3 blog_downloader.py 'URL'
 ```
 
 ---
 
-## 🧪 Verificar Instalación
+## 🧪 Verify Installation
 
 ```bash
-# Activar entorno virtual
+# Activate virtual environment
 source venv/bin/activate
 
-# Ejecutar test
+# Run test
 python3 test_gui.py
 ```
 
 ---
 
-## 📖 Documentación Completa
+## 📖 Full Documentation
 
 - **Blog Downloader GUI:** `README_GUI.md`
 - **Blog Downloader CLI:** `README_BLOG_DOWNLOADER.md`
-- **Guía Rápida:** `QUICK_START.md`
-- **Ejemplos de Uso:** `EJEMPLOS_USO.md`
+- **Quick Guide:** `QUICK_START.md`
+- **Usage Examples:** `EJEMPLOS_USO.md`
 
 ---
 
-## 🌐 Características del Blog Downloader
+## 🌐 Blog Downloader Features
 
-### Versión GUI
-- Interfaz gráfica moderna
-- Multiidioma (En/Es) con soporte i18n
-- Selector de carpeta visual
-- Progreso en tiempo real
-- Validación de URLs
-- Mensajes de error claros
-- **NUEVO:** Opción de prefijo de fecha para carpetas
-- **NUEVO:** Selector de formato de fecha
+### GUI Version
+- Modern graphical interface
+- Multilingual (En/Es) with i18n support
+- Visual folder selector
+- Real-time progress
+- URL validation
+- Clear error messages
+- **NEW:** Date prefix option for folders
+- **NEW:** Date format selector
 
-### Versión CLI
-- Scriptable y automatizable
-- Múltiples descargas en lote
-- Integración con pipelines
-- Sin dependencias gráficas
-- **NUEVO:** Flag `--add-date` para prefijo de fecha
-- **NUEVO:** Opción `--date-format` para formato de fecha
+### CLI Version
+- Scriptable and automatable
+- Multiple batch downloads
+- Pipeline integration
+- No graphical dependencies
+- **NEW:** `--add-date` flag for date prefix
+- **NEW:** `--date-format` option for date format
 
-### Ambas Versiones
-- 📝 Conversión a Markdown limpio
-- 🖼️ Descarga automática de imágenes
-- 📁 Organización en carpetas
-- 🔗 Enlaces actualizados
-- ✅ Preserva formato
-- **📅 NUEVO:** Nombres de carpetas basados en fecha (YYYYMMDD-titulo)
-- **🔍 NUEVO:** Extracción automática de fecha de publicación
+### Both Versions
+- 📝 Clean Markdown conversion
+- 🖼️ Automatic image download
+- 📁 Folder organization
+- 🔗 Updated links
+- ✅ Format preservation
+- **📅 NEW:** Date-based folder names (YYYYMMDD-title)
+- **🔍 NEW:** Automatic publication date extraction
 
 ---
 
-## 🎯 Casos de Uso
+## 🎯 Use Cases
 
-### Backup de Blog con Fechas
+### Blog Backup with Dates
 ```bash
-# Con fecha automática
-./venv/bin/python3 blog_downloader.py 'https://tu-blog.com/entrada.html' --add-date
+# With automatic date
+./venv/bin/python3 blog_downloader.py 'https://your-blog.com/post.html' --add-date
 
-# Resultado: 20231107-titulo-de-entrada/
+# Result: 20231107-post-title/
 ```
 
-### Backup de Blog (Sin fechas)
+### Blog Backup (Without dates)
 ```bash
 ./run_gui.sh
-# Descargar cada entrada una por una
+# Download each post one by one
 ```
 
-### Migración de Contenido
+### Content Migration
 ```bash
-# Descargar todo el blog
+# Download entire blog
 for url in $(cat urls.txt); do
     ./descargar_blog.sh "$url"
 done
 ```
 
-### Documentación Offline
+### Offline Documentation
 ```bash
-# Descargar tutoriales importantes
+# Download important tutorials
 ./run_gui.sh
-# Y tendrás todo disponible sin Internet
+# And you'll have everything available without Internet
 ```
 
 ---
 
-## 💡 Tips y Trucos
+## 💡 Tips and Tricks
 
 ### GUI
-- Usa "Auto-create folder" para organización automática
-- Cambia de idioma según tu preferencia
-- El log muestra todo el proceso
+- Use "Auto-create folder" for automatic organization
+- Change language according to your preference
+- The log shows the entire process
 
 ### CLI
-- Usa el script bash para instalación automática
-- Crea scripts personalizados con `blog_downloader.py`
-- Ver `EJEMPLOS_USO.md` para scripts avanzados
+- Use the bash script for automatic installation
+- Create custom scripts with `blog_downloader.py`
+- See `EJEMPLOS_USO.md` for advanced scripts
 
 ---
 
-## ❓ Solución de Problemas
+## ❓ Troubleshooting
 
 ### Error: Permission denied
 ```bash
@@ -251,50 +204,50 @@ source venv/bin/activate
 pip install PyQt5
 ```
 
-### La GUI no abre
+### GUI won't open
 ```bash
-# Reinstalar todo
+# Reinstall everything
 rm -rf venv
 ./run_gui.sh
 ```
 
-Ver documentación completa en `README_GUI.md` para más ayuda.
+See full documentation in `README_GUI.md` for more help.
 
 ---
 
-## 🤝 Contribuir
+## 🤝 Contributing
 
-Mejoras bienvenidas:
-- Nuevos idiomas para la GUI
-- Soporte para más plataformas de blog
-- Características adicionales
-
----
-
-## 📄 Licencia
-
-Proyectos educativos y de uso personal libre.
+Improvements welcome:
+- New languages for GUI
+- Support for more blog platforms
+- Additional features
 
 ---
 
-## 🎉 Ejemplo de Uso Exitoso
+## 📄 License
+
+Educational projects and free personal use.
+
+---
+
+## 🎉 Successful Usage Example
 
 ```bash
 $ ./run_gui.sh
 
-📦 Activando entorno virtual...
-🚀 Iniciando aplicación...
+📦 Activating virtual environment...
+🚀 Starting application...
 
-# En la GUI:
-# 1. Pegar URL del blog
-# 2. Clic en "Download Blog Post"
-# 3. ✅ ¡Descarga completada!
+# In the GUI:
+# 1. Paste blog URL
+# 2. Click "Download Blog Post"
+# 3. ✅ Download completed!
 
-📁 Archivos guardados en: kwallet-configuracion/
+📁 Files saved in: kwallet-configuracion/
    - README.md
-   - images/ (13 imágenes)
+   - images/ (13 images)
 ```
 
 ---
 
-**¡Disfruta de las herramientas!** 🚀
+**Enjoy the tools!** 🚀
