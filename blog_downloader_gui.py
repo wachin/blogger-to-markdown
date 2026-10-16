@@ -16,9 +16,10 @@ from dateutil import parser as date_parser
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                              QHBoxLayout, QLabel, QLineEdit, QPushButton, 
                              QTextEdit, QFileDialog, QProgressBar, QComboBox,
-                             QGroupBox, QMessageBox, QCheckBox)
-from PyQt5.QtCore import QThread, pyqtSignal, QTranslator, QLocale, Qt
-from PyQt5.QtGui import QIcon, QFont
+                             QGroupBox, QMessageBox, QCheckBox, QDialog)
+from PyQt5.QtCore import QThread, pyqtSignal, QTranslator, QLocale, Qt, QUrl
+from PyQt5.QtGui import QIcon, QFont, QPixmap
+from PyQt5.QtSvg import QSvgWidget
 
 class DownloadThread(QThread):
     """Thread for downloading blog posts without blocking the UI"""
@@ -434,11 +435,23 @@ class BlogDownloaderGUI(QMainWindow):
         input_group.setLayout(input_layout)
         main_layout.addWidget(input_group)
         
+        # Buttons layout
+        buttons_layout = QHBoxLayout()
+        
         # Download button
         self.download_button = QPushButton(self.tr("Download Blog Post"))
         self.download_button.clicked.connect(self.start_download)
         self.download_button.setMinimumHeight(40)
-        main_layout.addWidget(self.download_button)
+        buttons_layout.addWidget(self.download_button)
+        
+        # About button
+        self.about_button = QPushButton(self.tr("About"))
+        self.about_button.clicked.connect(self.show_about)
+        self.about_button.setMinimumHeight(40)
+        self.about_button.setMaximumWidth(120)
+        buttons_layout.addWidget(self.about_button)
+        
+        main_layout.addLayout(buttons_layout)
         
         # Progress area
         progress_group = QGroupBox(self.tr("Progress"))
@@ -564,6 +577,110 @@ class BlogDownloaderGUI(QMainWindow):
     def tr(self, text):
         """Translation helper"""
         return QApplication.translate("BlogDownloaderGUI", text)
+    
+    def show_about(self):
+        """Show About dialog"""
+        about_dialog = AboutDialog(self)
+        about_dialog.exec_()
+
+
+class AboutDialog(QDialog):
+    """About dialog showing program information"""
+    
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle(self.tr("About Blog Downloader"))
+        self.setMinimumSize(500, 400)
+        self.setup_ui()
+    
+    def setup_ui(self):
+        """Setup the dialog UI"""
+        layout = QHBoxLayout()
+        self.setLayout(layout)
+        
+        # Left side - Icon
+        icon_layout = QVBoxLayout()
+        icon_layout.addStretch()
+        
+        # Load and display the icon
+        icon_path = os.path.join(os.path.dirname(__file__), "icon.svg")
+        if os.path.exists(icon_path):
+            icon_widget = QSvgWidget(icon_path)
+            icon_widget.setFixedSize(200, 200)
+            icon_layout.addWidget(icon_widget, alignment=Qt.AlignCenter)
+        else:
+            # Fallback to default icon if SVG not found
+            icon_label = QLabel("📝")
+            icon_label.setStyleSheet("font-size: 120px;")
+            icon_label.setAlignment(Qt.AlignCenter)
+            icon_layout.addWidget(icon_label)
+        
+        icon_layout.addStretch()
+        layout.addLayout(icon_layout)
+        
+        # Right side - Information
+        info_layout = QVBoxLayout()
+        
+        # Program name and description
+        title_label = QLabel("<h2>Blog Post Downloader</h2>")
+        title_label.setAlignment(Qt.AlignCenter)
+        info_layout.addWidget(title_label)
+        
+        description = QLabel(
+            self.tr("Tool to download blog posts and convert them to Markdown format with images. "
+                   "Supports multiple blog platforms including Blogger.")
+        )
+        description.setWordWrap(True)
+        description.setAlignment(Qt.AlignCenter)
+        info_layout.addWidget(description)
+        
+        info_layout.addSpacing(20)
+        
+        # Copyright
+        copyright_label = QLabel("<b>Copyright:</b> © 2026 Washington Indacochea Delgado")
+        info_layout.addWidget(copyright_label)
+        
+        # Email (clickable)
+        email_label = QLabel('<b>Email:</b> <a href="mailto:linuxfrontier@proton.me">linuxfrontier@proton.me</a>')
+        email_label.setOpenExternalLinks(True)
+        info_layout.addWidget(email_label)
+        
+        # License
+        license_label = QLabel("<b>License:</b> GPL3")
+        info_layout.addWidget(license_label)
+        
+        # Website (clickable)
+        website_label = QLabel('<b>Website:</b> <a href="https://github.com/wachin/blogger-to-markdown">https://github.com/wachin/blogger-to-markdown</a>')
+        website_label.setOpenExternalLinks(True)
+        info_layout.addWidget(website_label)
+        
+        info_layout.addSpacing(20)
+        
+        # Technologies used
+        tech_title = QLabel("<b>Technologies Used:</b>")
+        info_layout.addWidget(tech_title)
+        
+        tech_list = QLabel(
+            "• Python 3\n"
+            "• PyQt5\n"
+            "• BeautifulSoup\n"
+            "• html2text\n"
+            "• requests"
+        )
+        info_layout.addWidget(tech_list)
+        
+        info_layout.addStretch()
+        
+        # Close button
+        close_button = QPushButton(self.tr("Close"))
+        close_button.clicked.connect(self.accept)
+        info_layout.addWidget(close_button)
+        
+        layout.addLayout(info_layout)
+    
+    def tr(self, text):
+        """Translation helper"""
+        return QApplication.translate("AboutDialog", text)
 
 
 def main():
@@ -571,6 +688,11 @@ def main():
     app = QApplication(sys.argv)
     app.setApplicationName("Blog Downloader")
     app.setOrganizationName("BlogTools")
+    
+    # Set application icon
+    icon_path = os.path.join(os.path.dirname(__file__), "icon.svg")
+    if os.path.exists(icon_path):
+        app.setWindowIcon(QIcon(icon_path))
     
     # Set up translator
     translator = QTranslator()

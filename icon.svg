@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="128"
+   height="128"
+   viewBox="0 0 128 128"
+   version="1.1"
+   id="svg8">
+  <defs
+     id="defs2" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <!-- Background circle -->
+  <circle
+     style="fill:#4a90d9;fill-opacity:1;stroke:#2e5c8a;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="circle-bg"
+     cx="64"
+     cy="64"
+     r="60" />
+  <!-- Document icon (Markdown) -->
+  <rect
+     style="fill:#ffffff;fill-opacity:1;stroke:#2e5c8a;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="rect-doc"
+     width="50"
+     height="65"
+     x="25"
+     y="30"
+     rx="4"
+     ry="4" />
+  <!-- Down arrow -->
+  <path
+     style="fill:#e74c3c;fill-opacity:1;stroke:#c0392b;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path-arrow"
+     d="M 85,50 L 105,70 L 95,70 L 95,95 L 75,95 L 75,70 L 65,70 Z" />
+  <!-- Markdown M letter -->
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:bold;font-size:32px;line-height:1.25;font-family:sans-serif;fill:#4a90d9;fill-opacity:1;stroke:none;"
+     x="32"
+     y="72"
+     id="text-md"><tspan
+       id="tspan-md"
+       x="32"
+       y="72"
+       style="font-size:32px;fill:#4a90d9;fill-opacity:1;">M↓</tspan></text>
+</svg>
