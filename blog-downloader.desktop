@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Blog Post Downloader
+Name[es]=Descargador de Entradas de Blog
+Comment=Download blog posts with images to Markdown format
+Comment[es]=Descarga entradas de blog con imágenes a formato Markdown
+Exec=/home/wachin/AndroidD1/MDHoriZon-research/run_gui.sh
+Path=/home/wachin/AndroidD1/MDHoriZon-research
+Icon=text-html
+Terminal=false
+Categories=Utility;Network;
+Keywords=blog;markdown;download;converter;
+Keywords[es]=blog;markdown;descargar;conversor;
