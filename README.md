@@ -6,18 +6,18 @@
 
 # Blogger to Markdown
 
-### 1. 📝 Blog Post Downloader (CLI + GUI)
+### 1. Blog Post Downloader (CLI + GUI)
 
 Tool to download blog posts to Markdown format with images.
 
-#### 🖥️ GUI Version (Recommended)
+#### GUI Version (Recommended)
 
 **Features:**
-- ✅ Modern graphical interface with PyQt5
-- 🌐 Multilingual (English/Spanish)
-- 👀 Real-time progress
-- 📁 Auto-create folders
-- 🖼️ Automatic image download
+- Modern graphical interface with PyQt5
+- Multilingual (English/Spanish)
+- Real-time progress
+- Auto-create folders
+- Automatic image download
 
 **Quick Start:**
 ```bash
@@ -26,7 +26,7 @@ Tool to download blog posts to Markdown format with images.
 
 **Full documentation:** See `README_GUI.md`
 
-#### 💻 CLI Version (Command Line)
+#### CLI Version (Command Line)
 
 **For advanced users and scripts:**
 ```bash
@@ -37,48 +37,45 @@ Tool to download blog posts to Markdown format with images.
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Blog Downloader GUI
-```bash
-# 1. Run (installs dependencies automatically)
-./run_gui.sh
 
-# 2. In the interface:
-#    - Paste blog URL
-#    - Select language (English/Español)
-#    - Click "Download Blog Post"
+```bash
+./run_gui.sh
 ```
 
-### Blog Downloader CLI
-```bash
-# Use directly
-./descargar_blog.sh 'https://your-blog.com/post.html'
+**Nota importante sobre `run_gui.sh`:**
+- La primera vez puede tardar varios minutos en completarse, ya que instala automáticamente las dependencias necesarias (entorno virtual, PyQt5, etc.).
+- Requiere que el paquete `python3-venv` esté instalado. Si no lo está, instalelo antes:
+  ```bash
+  sudo apt install python3-venv
+  ```
 
-# Or with custom folder
-./descargar_blog.sh 'https://your-blog.com/post.html' 'my-folder'
+### Blog Downloader CLI
+
+```bash
+./descargar_blog.sh 'https://facilitarelsoftwarelibre.blogspot.com/2023/11/como-configurar-la-cartera-kwallet-de-KDE.html'
 ```
 
 ---
 
-## 📋 Requirements
+## Requirements
 
 - Python 3.6 or higher
 - pip3 (package manager)
 - Internet connection
 
-Dependencies are installed automatically.
-
 ---
 
-## � Debian/Ubuntu Installation (System Packages)
+## Debian/Ubuntu Installation (System Packages)
 
 For Debian/Ubuntu users who prefer to use system packages instead of virtual environments:
 
 ### Install Required Packages
 
 ```bash
-sudo apt install python3-requests python3-html2text python3-bs4 python3-lxml python3-pyqt5 python3-dateutil
+sudo apt install python3-venv python3-requests python3-html2text python3-bs4 python3-lxml python3-pyqt5 python3-dateutil
 ```
 
 ### Run the Program
@@ -93,44 +90,39 @@ python3 blog_downloader_gui.py
 python3 blog_downloader.py 'URL'
 ```
 
-**Note:** This method is ideal for creating a .deb package for easy distribution on Debian-based systems.
-
 ---
 
-## �🔧 Manual Installation
+## Manual Installation (with virtual environment)
 
-If you prefer to install manually:
+Esta sección explica el proceso de instalacion manual utilizando un entorno virtual de Python.
 
 ```bash
-# Create virtual environment
+# 1. Crear el entorno virtual (solo la primera vez)
 python3 -m venv venv
+
+# 2. Activar el entorno virtual (debe hacerse una sola vez por sesion de terminal)
 source venv/bin/activate
 
-# Install dependencies
+# 3. Instalar dependencias (solo la primera vez o cuando requirements.txt cambie)
 pip install -r requirements.txt
 
-# Run GUI
+# 4. Ejecutar la interfaz grafica
 python3 blog_downloader_gui.py
 
-# Or run CLI
-python3 blog_downloader.py 'URL'
+# 5. Para desactivar el entorno virtual cuando ya no lo necesite
+deactivate
 ```
+
+**Resumen del ciclo de vida del entorno virtual:**
+1. `python3 -m venv venv` — Se ejecuta una sola vez para crear el entorno virtual.
+2. `source venv/bin/activate` — Activa el entorno virtual. Debe hacerse una sola vez por cada nueva sesion de terminal.
+3. `pip install -r requirements.txt` — Instala todas las dependencias del proyecto. Solo se necesita repetir si el archivo `requirements.txt` cambia.
+4. `python3 blog_downloader_gui.py` — Lanza la interfaz grafica. Puede repetirse cuantas veces quiera mientras el entorno virtual esta activo.
+5. `deactivate` — Desactiva el entorno virtual. Debe hacerse al terminar de usar el programa.
 
 ---
 
-## 🧪 Verify Installation
-
-```bash
-# Activate virtual environment
-source venv/bin/activate
-
-# Run test
-python3 test_gui.py
-```
-
----
-
-## 📖 Full Documentation
+## Full Documentation
 
 - **Blog Downloader GUI:** `README_GUI.md`
 - **Blog Downloader CLI:** `README_BLOG_DOWNLOADER.md`
@@ -139,7 +131,7 @@ python3 test_gui.py
 
 ---
 
-## 🌐 Blog Downloader Features
+## Blog Downloader Features
 
 ### GUI Version
 - Modern graphical interface
@@ -160,17 +152,17 @@ python3 test_gui.py
 - **NEW:** `--date-format` option for date format
 
 ### Both Versions
-- 📝 Clean Markdown conversion
-- 🖼️ Automatic image download
-- 📁 Folder organization
-- 🔗 Updated links
-- ✅ Format preservation
-- **📅 NEW:** Date-based folder names (YYYYMMDD-title)
-- **🔍 NEW:** Automatic publication date extraction
+- Clean Markdown conversion
+- Automatic image download
+- Folder organization
+- Updated links
+- Format preservation
+- **NEW:** Date-based folder names (YYYYMMDD-title)
+- **NEW:** Automatic publication date extraction
 
 ---
 
-## 🎯 Use Cases
+## Use Cases
 
 ### Blog Backup with Dates
 ```bash
@@ -203,7 +195,7 @@ done
 
 ---
 
-## 💡 Tips and Tricks
+## Tips and Tricks
 
 ### GUI
 - Use "Auto-create folder" for automatic organization
@@ -217,7 +209,7 @@ done
 
 ---
 
-## ❓ Troubleshooting
+## Troubleshooting
 
 ### Error: Permission denied
 ```bash
@@ -241,7 +233,7 @@ See full documentation in `README_GUI.md` for more help.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Improvements welcome:
 - New languages for GUI
@@ -250,30 +242,30 @@ Improvements welcome:
 
 ---
 
-## 📄 License
+## License
 
 Educational projects and free personal use.
 
 ---
 
-## 🎉 Successful Usage Example
+## Successful Usage Example
 
 ```bash
 $ ./run_gui.sh
 
-📦 Activating virtual environment...
-🚀 Starting application...
+Activando entorno virtual...
+Iniciando aplicacion...
 
 # In the GUI:
 # 1. Paste blog URL
 # 2. Click "Download Blog Post"
-# 3. ✅ Download completed!
+# 3. Descarga completada
 
-📁 Files saved in: kwallet-configuracion/
+Archivos guardados en: kwallet-configuracion/
    - README.md
    - images/ (13 images)
 ```
 
 ---
 
-**Enjoy the tools!** 🚀
+**Enjoy the tools!**
