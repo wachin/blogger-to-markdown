@@ -175,3 +175,6 @@ yarn-error.log*
 # Temporary build artifacts
 *.pyc
 *.pyo
+
+# Personal
+8vo
