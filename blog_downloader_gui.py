@@ -332,9 +332,10 @@ def format_date_folder_name(date_obj, slug, date_format='YYYYMMDD'):
 class BlogDownloaderGUI(QMainWindow):
     """Main window for the Blog Downloader application"""
     
-    def __init__(self):
+    def __init__(self, system_lang='en'):
         super().__init__()
         self.download_thread = None
+        self.system_lang = system_lang
         self.init_ui()
     
     def init_ui(self):
@@ -372,6 +373,15 @@ class BlogDownloaderGUI(QMainWindow):
         self.lang_combo = QComboBox()
         self.lang_combo.addItem("English", "en")
         self.lang_combo.addItem("Español", "es")
+        # Select language based on system locale detected in main()
+        self.lang_combo.blockSignals(True)
+        lang_index = 0
+        for i in range(self.lang_combo.count()):
+            if self.lang_combo.itemData(i) == self.system_lang:
+                lang_index = i
+                break
+        self.lang_combo.setCurrentIndex(lang_index)
+        self.lang_combo.blockSignals(False)
         self.lang_combo.currentIndexChanged.connect(self.change_language)
         lang_layout.addStretch()
         lang_layout.addWidget(lang_label)
@@ -468,17 +478,35 @@ class BlogDownloaderGUI(QMainWindow):
         self.statusBar().showMessage(self.tr("Ready"))
     
     def change_language(self, index):
-        """Change application language"""
+        """Change application language at runtime by reloading the translator"""
         lang_code = self.lang_combo.itemData(index)
-        # In a full implementation, this would reload the UI with new translations
-        # For now, we'll show a message that language change requires restart
-        if hasattr(self, 'language_changed'):
-            QMessageBox.information(
-                self,
-                self.tr("Language Change"),
-                self.tr("Language will be applied on next restart")
-            )
-        self.language_changed = True
+        if lang_code == self.system_lang:
+            return  # Same as system language, no need to reload
+
+        # Remove previous translator and install the new one
+        app = QApplication.instance()
+        translation_file = f"translations/blog_downloader_{lang_code}.qm"
+        if os.path.exists(translation_file):
+            translator = QTranslator()
+            if translator.load(translation_file):
+                app.installTranslator(translator)
+        else:
+            # Fall back to English (no translator)
+            app.removeTranslator(getattr(self, '_current_translator', None))
+
+        self.system_lang = lang_code
+        self._current_translator = translator if os.path.exists(translation_file) else None
+
+        # Refresh all translatable text
+        self.refresh_translations()
+
+    def refresh_translations(self):
+        """Refresh all UI text after language change"""
+        self.setWindowTitle(self.tr("Blog Post Downloader"))
+        # The UI text is handled automatically via self.tr() calls
+        # since widgets use self.tr() which routes through QApplication.translate()
+        # Re-trigger any dynamic text updates here if needed
+        self.statusBar().showMessage(self.tr("Ready"))
     
     def browse_folder(self):
         """Open folder selection dialog"""
@@ -694,18 +722,21 @@ def main():
     if os.path.exists(icon_path):
         app.setWindowIcon(QIcon(icon_path))
     
-    # Set up translator
+    # Set up translator based on system locale
     translator = QTranslator()
-    locale = QLocale.system().name()
-    
+    locale = QLocale.system().name()  # e.g., "es_ES", "en_US"
+    system_lang = locale.split('_')[0]  # e.g., "es", "en"
+
     # Try to load translation file
     translation_file = f"translations/blog_downloader_{locale}.qm"
+    if not os.path.exists(translation_file):
+        translation_file = f"translations/blog_downloader_{system_lang}.qm"
     if os.path.exists(translation_file):
         translator.load(translation_file)
         app.installTranslator(translator)
-    
-    # Create and show main window
-    window = BlogDownloaderGUI()
+
+    # Create and show main window, passing detected system language
+    window = BlogDownloaderGUI(system_lang=system_lang)
     window.show()
     
     sys.exit(app.exec_())

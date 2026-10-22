@@ -45,11 +45,11 @@ Tool to download blog posts to Markdown format with images.
 ./run_gui.sh
 ```
 
-**Nota importante sobre `run_gui.sh`:**
+**Note about `run_gui.sh`:**
 - La primera vez puede tardar varios minutos en completarse, ya que instala automáticamente las dependencias necesarias (entorno virtual, PyQt5, etc.).
-- Requiere que el paquete `python3-venv` esté instalado. Si no lo está, instalelo antes:
+- Requires the `python3-venv` package to be installed. If not, install it first:
   ```bash
-  sudo apt install python3-venv
+  sudo apt install python3-venv  # If not already installed
   ```
 
 ### Blog Downloader CLI
@@ -75,7 +75,7 @@ For Debian/Ubuntu users who prefer to use system packages instead of virtual env
 ### Install Required Packages
 
 ```bash
-sudo apt install python3-venv python3-requests python3-html2text python3-bs4 python3-lxml python3-pyqt5 python3-dateutil
+sudo apt install python3-venv  # If not already installed python3-requests python3-html2text python3-bs4 python3-lxml python3-pyqt5 python3-dateutil
 ```
 
 ### Run the Program
@@ -94,31 +94,31 @@ python3 blog_downloader.py 'URL'
 
 ## Manual Installation (with virtual environment)
 
-Esta sección explica el proceso de instalacion manual utilizando un entorno virtual de Python.
+This section explains the manual installation process using a Python virtual environment.
 
 ```bash
-# 1. Crear el entorno virtual (solo la primera vez)
+# 1. Create virtual environment (only once)
 python3 -m venv venv
 
-# 2. Activar el entorno virtual (debe hacerse una sola vez por sesion de terminal)
+# 2. Activate virtual environment (once per terminal session)
 source venv/bin/activate
 
-# 3. Instalar dependencias (solo la primera vez o cuando requirements.txt cambie)
+# 3. Install dependencies (only once, or when requirements.txt changes)
 pip install -r requirements.txt
 
-# 4. Ejecutar la interfaz grafica
+# 4. Run the graphical interface
 python3 blog_downloader_gui.py
 
-# 5. Para desactivar el entorno virtual cuando ya no lo necesite
+# 5. Deactivate virtual environment when done
 deactivate
 ```
 
-**Resumen del ciclo de vida del entorno virtual:**
-1. `python3 -m venv venv` — Se ejecuta una sola vez para crear el entorno virtual.
-2. `source venv/bin/activate` — Activa el entorno virtual. Debe hacerse una sola vez por cada nueva sesion de terminal.
-3. `pip install -r requirements.txt` — Instala todas las dependencias del proyecto. Solo se necesita repetir si el archivo `requirements.txt` cambia.
-4. `python3 blog_downloader_gui.py` — Lanza la interfaz grafica. Puede repetirse cuantas veces quiera mientras el entorno virtual esta activo.
-5. `deactivate` — Desactiva el entorno virtual. Debe hacerse al terminar de usar el programa.
+**Virtual environment lifecycle summary:**
+1. `python3 -m venv venv` — Run only once to create the virtual environment.
+2. `source venv/bin/activate` — Activate the virtual environment. Only needs to be done once per terminal session.
+3. `pip install -r requirements.txt` — Install all project dependencies. Only needs to be repeated if `requirements.txt` changes.
+4. `python3 blog_downloader_gui.py` — Launch the GUI. Can be run any number of times while the virtual environment is active.
+5. `deactivate` — Deactivate the virtual environment. Do this when you are done using the program.
 
 ---
 
