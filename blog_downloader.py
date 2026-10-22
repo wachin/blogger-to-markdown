@@ -241,19 +241,24 @@ def download_blog_post(url, output_folder=None, add_date_prefix=False, date_form
             print("📅 Extrayendo fecha de publicación...")
             post_date = extract_publication_date(soup, url)
         
-        # Crear carpeta de salida
+        # Crear carpeta de salida (todas las conversiones van bajo conversions/)
         if output_folder is None:
             # Generar slug desde el título
             slug = generate_slug(title)
-            
+
             # Si está habilitado el prefijo de fecha, usar formato con fecha
             if add_date_prefix and post_date:
-                output_folder = format_date_folder_name(post_date, slug, date_format)
+                folder_name = format_date_folder_name(post_date, slug, date_format)
             else:
-                output_folder = slug
-        
+                folder_name = slug
+
+            output_folder = os.path.join("conversions", folder_name)
+        else:
+            # Si se especifica una carpeta explícita, también anclarla a conversions/
+            output_folder = os.path.join("conversions", os.path.basename(output_folder))
+
         if not os.path.exists(output_folder):
-            os.makedirs(output_folder)
+            os.makedirs(output_folder, exist_ok=True)
         
         images_folder = os.path.join(output_folder, "images")
         if not os.path.exists(images_folder):
@@ -299,11 +304,20 @@ def download_blog_post(url, output_folder=None, add_date_prefix=False, date_form
         h.ignore_emphasis = False
         h.body_width = 0  # No limitar el ancho
         h.unicode_snob = True
-        h.escape_snob = True
-        
+        h.escape_snob = False  # Evita escapar \(, \) en textos con paréntesis
+
         # Convertir el contenido
         markdown_content = h.handle(str(post_body))
-        
+
+        # Post-procesado: convertir imágenes enlazadas [![alt](local)](url) → ![local](url)
+        # y asegurar que la ruta local de la imagen se mantenga
+        def _fix_image_links(text):
+            pattern = r'\[!\[([^\]]*)\]\(([^)]+)\)\]\([^)]+\)'
+            def _repl(m):
+                return f"![{m.group(1)}]({m.group(2)})"
+            return re.sub(pattern, _repl, text)
+        markdown_content = _fix_image_links(markdown_content)
+
         # Construir el documento final
         final_markdown = f"# {title}\n\n"
         final_markdown += f"**Fuente:** {url}\n\n"
