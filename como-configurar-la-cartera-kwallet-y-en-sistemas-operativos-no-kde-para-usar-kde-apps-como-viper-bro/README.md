@@ -1,4 +1,4 @@
-# Cómo configurar la cartera KWallet en KDE para Kubuntu, y en Sistemas Operativos no KDE para usar KDE Apps como Viper Browser
+# Cómo configurar la cartera KWallet y en Sistemas Operativos no KDE para usar KDE Apps como Viper Browser, etc, y también en KDE
 
 **Fuente:** https://facilitarelsoftwarelibre.blogspot.com/2023/11/como-configurar-la-cartera-kwallet-de-KDE.html
 
@@ -21,6 +21,11 @@ y bueno esta es la:
 **Solución para la segunda circunstancia,** entonces tenemos que yo he abierto Viper Browser y apareció ese mensaje que dice:
 
 La aplicación "**Viper-Broser** " ha solicidado crear una nueva carpeta con el nombre "**kdewallet** ". Esto se usa para almacenar información importante de un modo seguro. Escoja el nuevo tipo de cartera abajo, o pulse "Cancelar" si desea denegar la petición de la aplicación.
+
+**Nota** : En caso de que no está instalado kdewallet instalelo con:
+    
+    
+    sudo apt install kwalletmanager
 
 Elijo la segunda opción:
 
